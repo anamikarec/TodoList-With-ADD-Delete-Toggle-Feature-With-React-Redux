@@ -1,5 +1,12 @@
-import { useDispatch, useSelector } from "react-redux";
-import { removeTodo, toggleTodo } from "../Redux/action";
+import { useEffect } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import {
+  removeTodo,
+  toggleTodo,
+  getTodoRequest,
+  getTodoSuccess,
+  getTodoFailure
+} from "../Redux/action";
 
 const TodoItem = ({ title, status, onDelete, id, onToggle }) => {
   return (
@@ -13,7 +20,11 @@ const TodoItem = ({ title, status, onDelete, id, onToggle }) => {
 };
 
 const TodoList = () => {
-  const todos = useSelector((state) => state.todos);
+  const { todos } = useSelector((state) => {
+    return {
+      todos: state.todos
+    };
+  }, shallowEqual);
 
   const dispatch = useDispatch();
 
@@ -22,6 +33,27 @@ const TodoList = () => {
     dispatch(action);
   };
 
+  const getTodos = () => {
+    const requestAction = getTodoRequest();
+    dispatch(requestAction);
+    return fetch("http://json-server-mocker-masai.herokuapp.com/tasks")
+      .then((res) => res.json())
+      .then((res) => {
+        //success
+        const successAction = getTodoSuccess();
+        dispatch(successAction);
+      })
+      .catch((err) => {
+        //errror
+        const failureAction = getTodoFailure();
+        dispatch(failureAction);
+      });
+  };
+
+  useEffect(() => {
+    // getTodos()
+    // .then(()=>)
+  }, []);
   const handleToggle = (id) => {
     const action = toggleTodo(id);
     dispatch(action);

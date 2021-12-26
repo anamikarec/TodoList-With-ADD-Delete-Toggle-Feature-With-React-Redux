@@ -1,18 +1,37 @@
 import { actionContants } from "./action";
 
 const initState = {
-  todos: [
-    {
-      id: 1,
-      status: false,
-      title: "Learn React"
-    }
-  ]
+  todos: [],
+  isLoading: true,
+  isError: false
 };
 
 const reducer = (state = initState, action) => {
   console.log(state, action);
   switch (action.type) {
+    case actionContants.GET_TODO_REQUEST: {
+      return {
+        ...state,
+        isLoading: true
+      };
+    }
+
+    case actionContants.GET_TODO_SUCCESS: {
+      return {
+        ...state,
+        todos: action.payload.todos,
+        isLoading: false
+      };
+    }
+
+    case actionContants.GET_TODO_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
+        isError: true
+      };
+    }
+
     case actionContants.ADD_TODO: {
       return {
         ...state,
