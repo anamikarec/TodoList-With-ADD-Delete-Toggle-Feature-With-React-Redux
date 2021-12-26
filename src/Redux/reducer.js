@@ -5,7 +5,7 @@ const initState = {
     {
       id: 1,
       status: false,
-      title: "STUDY DSA"
+      title: "Learn React"
     }
   ]
 };
