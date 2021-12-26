@@ -1,2 +1,2 @@
-# TodoList-With-ADD-Delete-Toggle-Feature-With-React-Redux
+# Basic-redux-todo-APP
 Created with CodeSandbox
